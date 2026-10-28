@@ -1,5 +1,6 @@
 // Duel Commander banlist (source: https://www.duelcommander.org/banlist/)
-// Last synced: 2026-01-26
+// Last updated: 2026-01-26
+// TODO: review this list after the 2026-11-30 banlist update.
 // Rules match Commander, with this stricter banlist.
 
 const norm = (name: string) => name.toLowerCase().trim();

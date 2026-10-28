@@ -25,11 +25,17 @@
   "engines": {
     "node": ">=18"
   },
-  "author": "Calatayud Digital Solutions <info@calatayud-digital-solutions.es>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Calatayud Digital Solutions (https://calatayud-digital-solutions.es)",
   "homepage": "https://manaforge.tools",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Calatayud-Digital-Solutions/mtg-deck-validator"
+    "url": "git+https://github.com/Calatayud-Digital-Solutions/mtg-deck-validator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Calatayud-Digital-Solutions/mtg-deck-validator/issues"
   },
   "license": "MIT",
   "keywords": [
@@ -40,6 +46,9 @@
     "validator",
     "commander",
     "duel-commander",
+    "moxfield",
+    "manabox",
+    "cardmarket",
     "standard",
     "pauper",
     "scryfall",

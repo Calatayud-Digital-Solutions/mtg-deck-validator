@@ -6,7 +6,7 @@ The validator checks deck size, sideboard size, copy limits, commander count and
 
 This package is not affiliated with, endorsed, or sponsored by Wizards of the Coast. Card legality objects use the [Scryfall](https://scryfall.com/docs/api/cards) format: `legal`, `not_legal`, `banned`, and `restricted`.
 
-Duel Commander bans follow the list published at [duelcommander.org](https://www.duelcommander.org/banlist/) (last synced 2026-01-26).
+Duel Commander bans follow the list published at [duelcommander.org](https://www.duelcommander.org/banlist/) (last updated 2026-01-26). Review that list after the 2026-11-30 update.
 
 ## Install
 
@@ -41,13 +41,13 @@ const cards: DeckCard[] = [
 ];
 
 const result = validateDeck(cards, 'commander');
-result.valid;
-result.errors;
-result.warnings;
+result.valid; // false
+result.errors; // ['Deck has 1 cards; the minimum for commander is 100.']
+result.warnings; // ['Few lands: you may need more mana sources.']
 
 // Optional. When a printing is not legal in a rotating format, the validator
 // asks whether another printing of the same name is legal.
-setOracleLegalityResolver(async (name, legalityKey) => {
+setOracleLegalityResolver(async () => {
   return { legal: false };
 });
 ```
@@ -74,7 +74,7 @@ Reads a Scryfall legality object, including aliases such as `standardbrawl` for 
 
 ### `findUnproducibleColorCards(mainboard)`
 
-Returns `{ name, color }` for spells whose mana symbols are not produced by the deck's lands. Returns nothing when land data is incomplete.
+Returns `{ name, color }` for spells whose mana symbols are not produced by the deck's lands. Returns an empty array when land data is incomplete.
 
 ### `KNOWN_LAND_COLORS`
 
@@ -100,4 +100,23 @@ Lowercase land name to the colors that land produces, used when `color_identity`
 
 `Card` carries `name`, `type_line`, `oracle_text`, `colors`, `color_identity`, `cmc`, `mana_cost`, `legalities`, `rarity`, and `set_code`.
 
-Used in production by [ManaForge](https://manaforge.tools) — Built by [Calatayud Digital Solutions](https://calatayud-digital-solutions.es)
+## Supported formats
+
+| Format | Deck size | Copies | Sideboard | Commander |
+| --- | --- | --- | --- | --- |
+| `standard` | at least 60 | 4 | up to 15 | no |
+| `pauper` | at least 60 | 4 | up to 15 | no |
+| `pauper_standard` | at least 60 | 4 | up to 15 | no |
+| `commander` | exactly 100 | 1 | no | 1 legendary creature, or a card that says it can be your commander |
+| `duel_commander` | exactly 100 | 1 | no | same as Commander, plus the Duel Commander banlist |
+| `brawl` | exactly 100 | 1 | no | 1 legendary creature or legendary planeswalker, or a card that says it can be your commander |
+| `competitive_brawl` | exactly 100 | 1 | no | same commander rules as Brawl |
+| `standard_brawl` | exactly 60 | 1 | no | same commander rules as Brawl |
+
+`pauper_standard` also requires every nonbasic card to be a common, and checks both `standard` and `pauper` legality. Basic lands ignore the copy limit.
+
+## License
+
+MIT. See [LICENSE](./LICENSE).
+
+Used in production by [ManaForge](https://manaforge.tools), an AI deck builder for Magic: The Gathering. Built by [Calatayud Digital Solutions](https://calatayud-digital-solutions.es).
